@@ -1,0 +1,18 @@
+.container1{
+    margin-top: 20px;
+    border: 2px solid gray;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.container2{
+    margin-top: 20px;
+    border: 2px solid rgb(174, 63, 63);
+    padding: 20px;
+}
+/* #buy{
+    padding: 10px;
+    margin-left: 10px;
+    height: 10px;
+    width: 10px;
+} */

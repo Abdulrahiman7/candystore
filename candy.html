@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candy Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="candy.css">
+</head>
+<body>
+    <div class="container" style="text-align: center;">
+        <h1>Candy Store</h1>
+    </div>
+    <div class="container1">
+        <div class="row">
+            <div class="col">
+                <h3>Candy Name</h3>
+                <input type="text" id="candy">
+            </div>
+            <div class="col">
+                <h3>Description</h3>
+                <input type="text" id="description">
+            </div>
+            <div class="col">
+                <h3>Price</h3>
+                <input type="number" id="price">
+            </div>
+            <div class="col">
+                <h3>Quantity Left</h3>
+                <input type="number" id="quantity">
+            </div>
+            <div class="col" style="margin-top: 40px;">
+                <input type="button" id="submit" value="Add item">
+            </div>
+        </div>
+    </div>
+    <div class="container2" id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="candy.js"></script>
+</body>
+</html>
