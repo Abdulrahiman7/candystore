@@ -24,7 +24,7 @@ function newcand(e){
         'price':pri,
         'quantity':qua
     }
-    axios.post('https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new',newitem)
+    axios.post('https://crudcrud.com/api/008a4f48c99740b0934b2629ba6a4123/new',newitem)
     .then((res)=>{
         console.log(res)
         const dataId=res.data._id;
@@ -62,13 +62,13 @@ function display(c,d,p,q,id){
         const par=this.parentElement;
         const value = select.value;
         const did=par.id;
-        let isTrue=true;
         let quantityLeft;
-        axios.get(`https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new/${did}`)
+        
+        axios.get(`https://crudcrud.com/api/008a4f48c99740b0934b2629ba6a4123/new/${did}`)
         .then((res)=>{
             let qu=res.data.quantity;
-            
             quantityLeft=qu-value;
+           
             
             if((quantityLeft)>=0){
                 let boughtCandy={
@@ -83,21 +83,25 @@ function display(c,d,p,q,id){
                 console.log(totalprice)
                 carttext.nodeValue='Total Items in Cart='+totalItems+'              '+'Total Price='+totalprice;
                 containerCart.appendChild(carttext);
+                console.log(par.innerHTML)
                 const textn=document.createTextNode(res.data.candy+"  "+res.data.description+"  "+res.data.price+"  "+quantityLeft);
                 par.textContent='';
                 par.appendChild(textn);
                 par.appendChild(select);
                 par.appendChild(submit);
-                axios.put(`https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new/${did}`,boughtCandy)
+                axios.put(`https://crudcrud.com/api/008a4f48c99740b0934b2629ba6a4123/new/${did}`,boughtCandy)
                 .then((response) => {
                     console.log(response.data);
-                    
-                    
+                    localStorage.setItem('totalItems',totalItems);
+                    localStorage.setItem('totalprice',totalprice);
                   })
                   .catch((error) => {
                     console.error(error);
                   });
-            }else console.error('Not enough Candy');
+            }else {
+                console.error('Not enough Candy');
+                par.innerHTML=par.innerHTML+'......................................Sold Out';
+            }
         })
         .catch((err)=>{
             console.log(err);
@@ -106,11 +110,15 @@ function display(c,d,p,q,id){
     })
 }
 window.addEventListener('DOMContentLoaded',()=>{
-    axios.get('https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new')
+    axios.get('https://crudcrud.com/api/008a4f48c99740b0934b2629ba6a4123/new')
     .then((res)=>{
         for(let i=0;i<res.data.length;i++){
             display(res.data[i].candy,res.data[i].description,res.data[i].price,res.data[i].quantity,res.data[i]._id);
             console.log(res.data[i]);
+            const a=localStorage.getItem('totalItems');
+            const b=localStorage.getItem('totalprice');
+            carttext.nodeValue='Total Items in Cart='+a+'              '+'Total Price='+b;
+                containerCart.appendChild(carttext);
         }
     })
     .catch((err)=>{
