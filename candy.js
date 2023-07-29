@@ -4,6 +4,10 @@ const description=document.getElementById('description');
 const price=document.getElementById('price');
 const quantity=document.getElementById('quantity');
 let ul=document.createElement('ul');
+let totalItems=0;
+let totalprice=0;
+const containerCart=document.getElementById('containerCart');
+let carttext=document.createTextNode('');
 
 const newcandy=document.getElementById('submit');
 newcandy.addEventListener('click',newcand);
@@ -20,7 +24,7 @@ function newcand(e){
         'price':pri,
         'quantity':qua
     }
-    axios.post('https://crudcrud.com/api/502b69fe536447a285dc1dae92a59c44/new',newitem)
+    axios.post('https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new',newitem)
     .then((res)=>{
         console.log(res)
         const dataId=res.data._id;
@@ -49,7 +53,7 @@ function display(c,d,p,q,id){
     
     const submit=document.createElement('button');
     submit.id='buy';
-    submit.textContent= 'Buy';
+    submit.textContent= 'Add to cart';
     li.appendChild(submit);
     ul.appendChild(li);
 
@@ -60,7 +64,7 @@ function display(c,d,p,q,id){
         const did=par.id;
         let isTrue=true;
         let quantityLeft;
-        axios.get(`https://crudcrud.com/api/502b69fe536447a285dc1dae92a59c44/new/${did}`)
+        axios.get(`https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new/${did}`)
         .then((res)=>{
             let qu=res.data.quantity;
             
@@ -69,13 +73,26 @@ function display(c,d,p,q,id){
             if((quantityLeft)>=0){
                 let boughtCandy={
                     'candy':res.data.candy,
-                'description':res.data.candy,
-                'price':res.data.candy,
+                'description':res.data.description,
+                'price':res.data.price,
                 'quantity':quantityLeft
                 }
-                axios.put(`https://crudcrud.com/api/502b69fe536447a285dc1dae92a59c44/new/${did}`,boughtCandy)
+                totalItems+=parseInt(value);
+                totalprice+=value*res.data.price;
+                console.log(totalItems)
+                console.log(totalprice)
+                carttext.nodeValue='Total Items in Cart='+totalItems+'              '+'Total Price='+totalprice;
+                containerCart.appendChild(carttext);
+                const textn=document.createTextNode(res.data.candy+"  "+res.data.description+"  "+res.data.price+"  "+quantityLeft);
+                par.textContent='';
+                par.appendChild(textn);
+                par.appendChild(select);
+                par.appendChild(submit);
+                axios.put(`https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new/${did}`,boughtCandy)
                 .then((response) => {
                     console.log(response.data);
+                    
+                    
                   })
                   .catch((error) => {
                     console.error(error);
@@ -89,7 +106,7 @@ function display(c,d,p,q,id){
     })
 }
 window.addEventListener('DOMContentLoaded',()=>{
-    axios.get('https://crudcrud.com/api/502b69fe536447a285dc1dae92a59c44/new')
+    axios.get('https://crudcrud.com/api/41a21328be1c4319b1819db2832e7f88/new')
     .then((res)=>{
         for(let i=0;i<res.data.length;i++){
             display(res.data[i].candy,res.data[i].description,res.data[i].price,res.data[i].quantity,res.data[i]._id);
